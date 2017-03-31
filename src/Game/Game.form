@@ -58,6 +58,7 @@
         <properties>
           <background color="-16777216"/>
           <editable value="false"/>
+          <font name="Monospaced" size="16"/>
           <foreground color="-15442671"/>
         </properties>
       </component>
