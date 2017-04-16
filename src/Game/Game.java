@@ -322,7 +322,7 @@ public class Game extends JFrame implements ActionListener{
 
     private class UnknownActionException extends Exception {
         public UnknownActionException() {
-            super("Unknown action was pressed! Remember to make the strings exactly the same!");
+            super("Unknown action was pressed! Remember to pair your action with your key!");
         }
     }
 
