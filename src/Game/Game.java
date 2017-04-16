@@ -111,8 +111,7 @@ public class Game extends JFrame implements ActionListener{
     }
 
     public void takeShip() {
-        appendString("You earned a ship! Now you can get off this station and get out of here!");
-        appendString("But where will you go?");
+        appendString("You earned a ship! Now you can get off this station and get out of here!\nBut where will you go?");
         setAction1(KEY_JUMP_NEXT_SYSTEM, "Jump to the next system! We're out of here");
         setAction2(KEY_GOTO_CANTEEN, "Stay for a while and ask around about what the federation knows about you");
         setAction3(KEY_GOTO_SHOP, "Screw this ship! It's a hunk of junk! I'm going to buy some upgrades first!");
@@ -152,7 +151,56 @@ public class Game extends JFrame implements ActionListener{
         setAction4(KEY_SHOW_CREDITS, "Credits");
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
 
+        try {
+            switch(command) {
+                case KEY_NEW_GAME:
+                    newGame();
+                    break;
+                case KEY_LOAD_GAME:
+                    loadGame();
+                    break;
+                case KEY_SHOW_SETTINGS:
+                    showSettings();
+                    break;
+                case KEY_SHOW_CREDITS:
+                    showCredits();
+                    break;
+                case KEY_TAKE_ITEM:
+                    takeShip();
+                    break;
+                case KEY_JUMP_NEXT_SYSTEM:
+                    jumpNextSystem();
+                    break;
+                case KEY_GOTO_SHOP:
+                    enterShop();
+                    break;
+                case KEY_GOTO_CANTEEN:
+                    enterCanteen();
+                    break;
+                case KEY_GET_CAPTURED:
+                    getCaptured();
+                    break;
+
+                default:
+                    throw new UnknownActionException();
+
+            }
+        } catch (UnknownActionException ex){
+            ex.printStackTrace();
+        }
+    }
+
+
+
+
+
+
+
+    
 
     /*
      * =================================================================================================================
@@ -250,48 +298,7 @@ public class Game extends JFrame implements ActionListener{
         pool.submit(thread);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
 
-        try {
-            switch(command) {
-                case KEY_NEW_GAME:
-                    newGame();
-                    break;
-                case KEY_LOAD_GAME:
-                    loadGame();
-                    break;
-                case KEY_SHOW_SETTINGS:
-                    showSettings();
-                    break;
-                case KEY_SHOW_CREDITS:
-                    showCredits();
-                    break;
-                case KEY_TAKE_ITEM:
-                    takeShip();
-                    break;
-                case KEY_JUMP_NEXT_SYSTEM:
-                    jumpNextSystem();
-                    break;
-                case KEY_GOTO_SHOP:
-                    enterShop();
-                    break;
-                case KEY_GOTO_CANTEEN:
-                    enterCanteen();
-                    break;
-                case KEY_GET_CAPTURED:
-                    getCaptured();
-                    break;
-
-                default:
-                    throw new UnknownActionException();
-
-            }
-        } catch (UnknownActionException ex){
-            ex.printStackTrace();
-        }
-    }
 
     private synchronized void playTextSounds(){
         new Thread(() -> {
