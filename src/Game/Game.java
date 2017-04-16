@@ -75,11 +75,10 @@ public class Game extends JFrame implements ActionListener{
                 "WELCOME TO TEXT BASED RPG\n" +
                 "===================================\n";
         appendString(title);
-        button1.setActionCommand(button1.getText());
-        button2.setActionCommand(button2.getText());
-        button3.setActionCommand(button3.getText());
-        button4.setActionCommand(button4.getText());
-
+        setAction1(KEY_NEW_GAME, "New Game");
+        setAction2(KEY_LOAD_GAME, "Load Game");
+        setAction3(KEY_SHOW_SETTINGS, "Show Settings");
+        setAction4(KEY_SHOW_CREDITS, "Show Credits");
     }
 
     final String KEY_TAKE_ITEM = "Take Item";
