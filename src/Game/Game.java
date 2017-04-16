@@ -1,12 +1,15 @@
 package Game;
 
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -65,6 +68,7 @@ public class Game extends JFrame implements ActionListener{
     final String KEY_LOAD_GAME = "Load Game";
     final String KEY_SHOW_SETTINGS = "Show Settings";
     final String KEY_SHOW_CREDITS = "Show Credits";
+
     public void start(){
         String title =
                 "===================================\n" +
@@ -148,6 +152,25 @@ public class Game extends JFrame implements ActionListener{
         setAction4(KEY_SHOW_CREDITS, "Credits");
     }
 
+
+
+    /*
+     * =================================================================================================================
+     *
+     *                          DO NOT EDIT BELOW THIS
+     *                          DO NOT EDIT BELOW THIS
+     *                          DO NOT EDIT BELOW THIS
+     *
+     * =================================================================================================================
+     */
+
+
+
+
+
+
+
+
     public void setAllActions(String key, String action) {
         setAction1(key, action);
         setAction2(key, action);
@@ -188,6 +211,9 @@ public class Game extends JFrame implements ActionListener{
                     while (System.currentTimeMillis() < currentTime + TEXT_DELAY) {
                     }
                     document.insertString(document.getLength(), ""+str.charAt(i), null);
+                    if (i % TEXT_DELAY == 0) {
+                        playTextSounds();
+                    }
                 }
                 document.insertString(document.getLength(), "\n", null);
             } catch (BadLocationException e) {
@@ -207,6 +233,7 @@ public class Game extends JFrame implements ActionListener{
                     while (System.currentTimeMillis() < currentTime + delay) {
                     }
                     document.insertString(document.getLength(), ""+str.charAt(i), null);
+                    playTextSounds();
                 }
                 document.insertString(document.getLength(), "\n", null);
             } catch (BadLocationException e) {
@@ -264,6 +291,26 @@ public class Game extends JFrame implements ActionListener{
         } catch (UnknownActionException ex){
             ex.printStackTrace();
         }
+    }
+
+    private synchronized void playTextSounds(){
+        new Thread(() -> {
+            try {
+                Clip clip = AudioSystem.getClip();
+                InputStream inputStream = Game.class.getResourceAsStream("/Typing Sound.wav");
+                InputStream bufferedIn = new BufferedInputStream(inputStream);
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(bufferedIn);
+                clip.open(audioInputStream);
+                clip.start();
+            } catch (LineUnavailableException e) {
+                e.printStackTrace();
+            } catch (UnsupportedAudioFileException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }).start();
     }
 
     private class UnknownActionException extends Exception {
