@@ -44,7 +44,7 @@ public class Game extends JFrame implements ActionListener{
 
     public Game(){
         init();
-        setListeners();
+        setListeners(this);
     }
 
     public void init(){
@@ -57,11 +57,11 @@ public class Game extends JFrame implements ActionListener{
         pool = Executors.newSingleThreadExecutor();
     }
 
-    public void setListeners(){
-        button1.addActionListener(this);
-        button2.addActionListener(this);
-        button3.addActionListener(this);
-        button4.addActionListener(this);
+    public void setListeners(ActionListener listener){
+        button1.addActionListener(listener);
+        button2.addActionListener(listener);
+        button3.addActionListener(listener);
+        button4.addActionListener(listener);
     }
 
     final String KEY_NEW_GAME = "New Game";
