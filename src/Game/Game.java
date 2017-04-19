@@ -30,7 +30,7 @@ public class Game extends JFrame implements ActionListener{
     private ExecutorService pool;
 
     //===================================================================
-    //                      UNIVERSAL KEYS
+    //                      KEYS USED MORE THAN ONCE
     //===================================================================
 
     final String KEY_JUMP_NEXT_SYSTEM = "Jump to Next System";
@@ -39,7 +39,7 @@ public class Game extends JFrame implements ActionListener{
     final String KEY_GET_CAPTURED = "Captured";
 
     //===================================================================
-    //                      UNIVERSAL KEYS
+    //                      KEYS USED MORE THAN ONCE
     //===================================================================
 
     public Game(){
