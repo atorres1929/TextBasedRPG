@@ -4,7 +4,8 @@ package Game;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.StyledDocument;
+import javax.swing.text.DefaultCaret;
+import javax.swing.text.PlainDocument;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
@@ -24,23 +25,10 @@ public class Game extends JFrame implements ActionListener{
     private JButton button2;
     private JButton button3;
     private JButton button4;
-    private JTextPane textDisplayArea;
+    private JTextArea textDisplayArea;
     private JPanel rootContainer;
 
     private ExecutorService pool;
-
-    //===================================================================
-    //                      KEYS USED MORE THAN ONCE
-    //===================================================================
-
-    final String KEY_JUMP_NEXT_SYSTEM = "Jump to Next System";
-    final String KEY_GOTO_CANTEEN = "Go to Canteen";
-    final String KEY_GOTO_SHOP = "Go to Shop";
-    final String KEY_GET_CAPTURED = "Captured";
-
-    //===================================================================
-    //                      KEYS USED MORE THAN ONCE
-    //===================================================================
 
     public Game(){
         init();
@@ -48,11 +36,14 @@ public class Game extends JFrame implements ActionListener{
     }
 
     public void init(){
-        setTitle("Text Based RPG");
+        setTitle("The World After");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(rootContainer);
+        DefaultCaret caret = (DefaultCaret) textDisplayArea.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         pack();
         setLocationRelativeTo(null);
+        setResizable(false);
         setVisible(true);
         pool = Executors.newSingleThreadExecutor();
     }
@@ -64,16 +55,16 @@ public class Game extends JFrame implements ActionListener{
         button4.addActionListener(listener);
     }
 
-    final String KEY_NEW_GAME = "New Game";
-    final String KEY_LOAD_GAME = "Load Game";
-    final String KEY_SHOW_SETTINGS = "Show Settings";
-    final String KEY_SHOW_CREDITS = "Show Credits";
+    private final String KEY_NEW_GAME = "New Game";
+    private final String KEY_LOAD_GAME = "Load Game";
+    private final String KEY_SHOW_SETTINGS = "Show Settings";
+    private final String KEY_SHOW_CREDITS = "Show Credits";
 
     public void start(){
         String title =
-                "===================================\n" +
-                "WELCOME TO TEXT BASED RPG\n" +
-                "===================================\n";
+                "===========================================================\n" +
+                "                     THE WORLD AFTER\n" +
+                "===========================================================\n";
         appendString(title);
         setAction1(KEY_NEW_GAME, "New Game");
         setAction2(KEY_LOAD_GAME, "Load Game");
@@ -81,21 +72,44 @@ public class Game extends JFrame implements ActionListener{
         setAction4(KEY_SHOW_CREDITS, "Show Credits");
     }
 
-    final String KEY_TAKE_ITEM = "Take Item";
+    private final String KEY_TAKE_GEAR = "Take Gear";
     public void newGame(){
-        clearText();
-        setAllActions(KEY_TAKE_ITEM, "Take Item!");
-        String intro =
-                "You are a Rebel on the run from the Federation.\n" +
-                "Your mission, is to make it back to the Rebel base.\n" +
-                "There, you can report the secret information you found to the head of the Rebel Alliance.\n" +
-                "It is up to you to defeat the Federation once and for all.\n" +
-                "Good luck soldier.\n";
-        appendString(intro);
-        appendString("...", 1000);
-        appendString("But wait! I forgot! You need a ship don't you!\n");
-        appendString("Here! Take this!");
+        appendString("Its been 75 years since a major disease only known as the X-virus took over the Earth and things aren't the same.");
+        appendString(" ",750);
+        appendString("Nations destroyed each other in the panic.\n");
+        appendString(" ", 750);
+        appendString("Some parts of the void are filled with nuclear hot spots with dangerous creatures.\n");
+        appendString(" ", 750);
+        appendString("A consequence of the fact that nuclear war broke out.\n");
+        appendString(" ", 750);
+        appendString("You are a survivor among others just trying to live out your life in the void. You decide" +
+                " you can no longer live out in the refugee camps and must head out into the vast void beyond to make a new life.\n");
+        appendString(" ", 750);
+        appendString("You search a nearby town and find a dead mercenary body in an old store and take his gear.\n");
+
+        appendString("Its been 75 years since a major disease only known as the X-virus took over the Earth and things aren't the same.");
+        appendString(" ",750);
+        appendString("Nations destroyed each other in the panic.\n");
+        appendString(" ", 750);
+        appendString("Some parts of the void are filled with nuclear hot spots with dangerous creatures.\n");
+        appendString(" ", 750);
+        appendString("A consequence of the fact that nuclear war broke out.\n");
+        appendString(" ", 750);
+        appendString("You are a survivor among others just trying to live out your life in the void. You decide" +
+                " you can no longer live out in the refugee camps and must head out into the vast void beyond to make a new life.\n");
+        appendString(" ", 750);
+        appendString("You search a nearby town and find a dead mercenary body in an old store and take his gear.\n");
+
+        setAllActions(KEY_TAKE_GEAR, "Continue");
     }
+
+    public void takeGear(){
+        appendString("You receive - 1 Colt 1911 Pistol");
+        appendString("You receive - 1 Light Vest");
+        appendString("You receive - 1 Small Medkit");
+        appendString("You receive - 1 Combat Knife");
+    }
+
 
     public void loadGame() {
         //TODO make a function for loading a previous game
@@ -109,46 +123,7 @@ public class Game extends JFrame implements ActionListener{
         //TODO make a function for showing credits
     }
 
-    public void takeShip() {
-        appendString("You earned a ship! Now you can get off this station and get out of here!\nBut where will you go?");
-        setAction1(KEY_JUMP_NEXT_SYSTEM, "Jump to the next system! We're out of here");
-        setAction2(KEY_GOTO_CANTEEN, "Stay for a while and ask around about what the federation knows about you");
-        setAction3(KEY_GOTO_SHOP, "Screw this ship! It's a hunk of junk! I'm going to buy some upgrades first!");
-        setAction4(KEY_GET_CAPTURED, "Can't run from the Federation on an empty stomach and tired... Let's eat and take a nap!");
-    }
 
-    public void jumpNextSystem() {
-        clearText();
-        appendString("=======================");
-        appendString("PREPARING JUMP SEQUENCE");
-        appendString("=======================");
-        appendString("Guns Stowed: Check", 100);
-        appendString("All Hatches Secured: Check", 100);
-        appendString("Jump Drive Ready: Check", 100);
-        appendString("======================================");
-        appendString("JUMP SEQUENCE COMPLETE || READ TO JUMP");
-        appendString("======================================");
-        appendString("Jumping In:");
-        appendString("3", 500);
-        appendString("2", 500);
-        appendString("1", 500);
-        appendString("JUMP!", 250);
-    }
-
-    public void enterShop() {
-        appendString("You enter the market");
-    }
-
-    public void enterCanteen() {
-        appendString("You enter the canteen");
-    }
-
-    public void getCaptured() {
-        setAction1(KEY_NEW_GAME, "New Game");
-        setAction2(KEY_LOAD_GAME, "Load Game");
-        setAction3(KEY_SHOW_SETTINGS, "Settings");
-        setAction4(KEY_SHOW_CREDITS, "Credits");
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -168,22 +143,8 @@ public class Game extends JFrame implements ActionListener{
                 case KEY_SHOW_CREDITS:
                     showCredits();
                     break;
-                case KEY_TAKE_ITEM:
-                    takeShip();
-                    break;
-                case KEY_JUMP_NEXT_SYSTEM:
-                    jumpNextSystem();
-                    break;
-                case KEY_GOTO_SHOP:
-                    enterShop();
-                    break;
-                case KEY_GOTO_CANTEEN:
-                    enterCanteen();
-                    break;
-                case KEY_GET_CAPTURED:
-                    getCaptured();
-                    break;
-
+                case KEY_TAKE_GEAR:
+                    takeGear();
                 default:
                     throw new UnknownActionException();
 
@@ -218,39 +179,39 @@ public class Game extends JFrame implements ActionListener{
 
 
 
-    public void setAllActions(String key, String action) {
-        setAction1(key, action);
-        setAction2(key, action);
-        setAction3(key, action);
-        setAction4(key, action);
+    public void setAllActions(String key, String text) {
+        setAction1(key, text);
+        setAction2(key, text);
+        setAction3(key, text);
+        setAction4(key, text);
     }
 
-    public void setAction1(String key, String action) {
-        button1.setText(action);
+    public void setAction1(String key, String text) {
+        button1.setText(text);
         button1.setActionCommand(key);
     }
 
-    public void setAction2(String key, String action) {
-        button2.setText(action);
+    public void setAction2(String key, String text) {
+        button2.setText(text);
         button2.setActionCommand(key);
 
     }
 
-    public void setAction3(String key, String action) {
-        button3.setText(action);
+    public void setAction3(String key, String text) {
+        button3.setText(text);
         button3.setActionCommand(key);
 
     }
 
-    public void setAction4(String key, String action) {
-        button4.setText(action);
+    public void setAction4(String key, String text) {
+        button4.setText(text);
         button4.setActionCommand(key);
 
     }
 
     @SuppressWarnings("Duplicates")
     public void appendString(String str){
-        StyledDocument document = (StyledDocument) textDisplayArea.getDocument();
+        PlainDocument document = (PlainDocument) textDisplayArea.getDocument();
         Thread thread = new Thread(() -> {
             try {
                 for (int i = 0; i < str.length(); i++) {
@@ -272,7 +233,7 @@ public class Game extends JFrame implements ActionListener{
 
     @SuppressWarnings("Duplicates")
     public void appendString(String str, int delay){
-        StyledDocument document = (StyledDocument) textDisplayArea.getDocument();
+        PlainDocument document = (PlainDocument) textDisplayArea.getDocument();
         Thread thread = new Thread(() -> {
             try {
                 for (int i = 0; i < str.length(); i++) {
